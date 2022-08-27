@@ -5,11 +5,11 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "nombres")
     private String nombres;
@@ -19,6 +19,13 @@ public class User {
     private int edad;
     @Column(name = "numeroDocumento")
     private String numeroDocumento;
+
+    @Column(name = "correoelectronico")
+    private String correoElectronico;
+
+    @ManyToOne
+    @JoinColumn(name = "tipodocumentoid")
+    private TipoDocumento tipoDocumento;
 
     public int getId() {
         return id;
@@ -58,5 +65,21 @@ public class User {
 
     public void setNumeroDocumento(String numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
 }
