@@ -27,6 +27,9 @@ public class User {
     @JoinColumn(name = "tipodocumentoid")
     private TipoDocumento tipoDocumento;
 
+
+
+
     public int getId() {
         return id;
     }
