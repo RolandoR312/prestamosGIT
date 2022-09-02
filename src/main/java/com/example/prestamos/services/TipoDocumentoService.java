@@ -25,7 +25,7 @@ public class TipoDocumentoService {
 
         //Debo validar si el documento ya existe
         ArrayList<TipoDocumento> documentos = this.repository.findByNombre(data.getNombre());
-        if(documentos != null && documentos.size() >= 0){
+        if(documentos != null && documentos.size() > 0){
             Response response = new Response();
             response.setCode(500);
             response.setMessage("Este tipo de documento ya existe");

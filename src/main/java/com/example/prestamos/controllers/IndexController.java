@@ -44,5 +44,9 @@ public class IndexController {
          return   this.userService.updateUser(request);
     }
 
+    @PostMapping("auth")
+    public Response auth(@RequestBody User request){
+        return this.userService.loginUser(request);
+    }
 
 }

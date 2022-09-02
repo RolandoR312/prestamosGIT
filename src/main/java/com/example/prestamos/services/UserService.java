@@ -1,11 +1,13 @@
 package com.example.prestamos.services;
 
+import com.example.prestamos.entities.EnumPerfil;
 import com.example.prestamos.entities.User;
 import com.example.prestamos.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,6 +27,29 @@ public class UserService {
 
     public Response createUser(User data){
         Response response = new Response();
+
+        //Logica de negocio
+        //Validamos datos
+        if(!isValidEmailAddress(data.getCorreoElectronico())){
+            response.setCode(500);
+            response.setMessage("Error, el usuario dado no es válido.");
+            return  response;
+        }
+
+        //Validamos password
+        if(data.getPassword().equals(null) || data.getPassword().equals("")){
+            response.setCode(500);
+            response.setMessage("Error, su contraseña no es válida.");
+            return  response;
+        }
+
+        ArrayList<User> existe = this.userRepository.existeCorreo(data.getCorreoElectronico());
+        if(existe != null && existe.size() > 0){
+            response.setCode(500);
+            response.setMessage("Error, el correo electronico ya esta en uso.");
+            return  response;
+        }
+
         this.userRepository.save(data);
         response.setCode(200);
         response.setMessage("Usuario registrado exitosamente");
@@ -59,6 +84,7 @@ public class UserService {
     public Response updateUser(User data){
         Response response = new Response();
 
+
         if(data.getId() == 0){
             response.setCode(500);
             response.setMessage("Error, el Id del usuario no es válido.");
@@ -91,6 +117,36 @@ public class UserService {
         this.userRepository.save(exists);
         response.setCode(200);
         response.setMessage("Usuario modificado exitosamente");
+        return  response;
+    }
+
+    public Response loginUser(User data){
+        Response response = new Response();
+
+        //Logica de negocio
+        //Validamos datos
+        if(!isValidEmailAddress(data.getCorreoElectronico())){
+            response.setCode(500);
+            response.setMessage("Error, el usuario dado no es válido.");
+            return  response;
+        }
+
+        //Validamos password
+        if(data.getPassword().equals(null) || data.getPassword().equals("")){
+            response.setCode(500);
+            response.setMessage("Error, su contraseña no es válida.");
+            return  response;
+        }
+
+        ArrayList<User> existe = this.userRepository.validaCredenciales(data.getCorreoElectronico(),data.getPassword());
+        if(existe != null && existe.size() > 0){
+            response.setCode(200);
+            response.setMessage("Usuario autenticado exitosamente.");
+            return  response;
+        }
+
+        response.setCode(500);
+        response.setMessage("Error, sus datos de acceso no son válidos");
         return  response;
     }
 

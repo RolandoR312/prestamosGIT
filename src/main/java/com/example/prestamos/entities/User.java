@@ -19,16 +19,17 @@ public class User {
     private int edad;
     @Column(name = "numeroDocumento")
     private String numeroDocumento;
-
     @Column(name = "correoelectronico")
     private String correoElectronico;
-
     @ManyToOne
     @JoinColumn(name = "tipodocumentoid")
     private TipoDocumento tipoDocumento;
 
+    @Column(name = "perfil")
+    private EnumPerfil perfil;
 
-
+    @Column(name ="password", length = 200)
+    private String password;
 
     public int getId() {
         return id;
@@ -84,5 +85,21 @@ public class User {
 
     public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
+    }
+
+    public EnumPerfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(EnumPerfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
