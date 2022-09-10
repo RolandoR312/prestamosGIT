@@ -11,5 +11,5 @@ public class HomeController {
     public String inicio(){
         return "home/inicio";
     }
-
+    //Esta es una prueba para validar el git push
 }
